@@ -1,7 +1,10 @@
 package com.example.feature.weather.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,27 +14,25 @@ import com.example.feature.weather.ui.TodayScreen
 import com.example.feature.weather.ui.WeekScreen
 import com.example.feature.weather.viewmodel.WeatherViewModel
 
+private val ColorBackground  = Color(0xFF090E18)
+
 @Composable
 fun WeatherNavGraph() {
     val navController = rememberNavController()
-
-    // 在這裡建立唯一的 ViewModel 實例，所有 Screen 共用
     val viewModel: WeatherViewModel = hiltViewModel()
 
+    // 只管 BottomBar，不管 TopAppBar
     Scaffold(
-        bottomBar = { WeatherBottomBar(navController) }
+        containerColor = ColorBackground,
+        bottomBar      = { WeatherBottomBar(navController) }
     ) { innerPadding ->
         NavHost(
             navController    = navController,
-            startDestination = "today"
+            startDestination = "today",
+            modifier         = Modifier.padding(innerPadding)
         ) {
             composable("today") {
-                TodayScreen(
-                    viewModel          = viewModel,
-                    onNavigateToCities = {
-                        navController.navigate("cities")
-                    }
-                )
+                TodayScreen(viewModel = viewModel)
             }
             composable("week") {
                 WeekScreen(viewModel = viewModel)
@@ -39,9 +40,7 @@ fun WeatherNavGraph() {
             composable("cities") {
                 CityListScreen(
                     viewModel      = viewModel,
-                    onCitySelected = {
-                        navController.popBackStack()
-                    }
+                    onCitySelected = { navController.popBackStack() }
                 )
             }
         }

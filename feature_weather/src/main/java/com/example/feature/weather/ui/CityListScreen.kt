@@ -1,5 +1,6 @@
 package com.example.feature.weather.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,6 +33,7 @@ private val ColorCardBorder      = Color(0x1A508CDC)
 private val ColorCardBorderSelected = Color(0x66508CDC)
 private val ColorRegionLabel     = Color(0xFF6080A0)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityListScreen(
     viewModel: WeatherViewModel,
@@ -40,38 +42,41 @@ fun CityListScreen(
     val cities       by viewModel.cities.collectAsStateWithLifecycle()
     val selectedCity by viewModel.selectedCity.collectAsStateWithLifecycle()
 
-    // 按地區分組
     val groupedCities = cities.groupBy { it.region }
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color    = ColorBackground
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ColorBackground)
     ) {
+        TopAppBar(
+            title = {
+                Text(
+                    text       = "選擇城市",
+                    fontSize   = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color      = ColorTextPrimary
+                )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = ColorBackground
+            )
+        )
+
         LazyColumn(
             modifier       = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
                 start  = 16.dp,
                 end    = 16.dp,
-                top    = 20.dp,
+                top    = 8.dp,
                 bottom = 16.dp
             )
         ) {
-            item {
-                Text(
-                    text       = "選擇城市",
-                    fontSize   = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color      = ColorTextPrimary,
-                    modifier   = Modifier.padding(bottom = 4.dp)
-                )
-            }
-
-            // 依地區分組顯示
             groupedCities.forEach { (region, citiesInRegion) ->
                 item {
                     Text(
                         text          = region,
-                        fontSize      = 18.sp,
+                        fontSize      = 10.sp,
                         fontWeight    = FontWeight.SemiBold,
                         color         = ColorRegionLabel,
                         letterSpacing = 1.5.sp,
@@ -94,8 +99,6 @@ fun CityListScreen(
                     Spacer(Modifier.height(6.dp))
                 }
             }
-
-            item { Spacer(Modifier.height(8.dp)) }
         }
     }
 }

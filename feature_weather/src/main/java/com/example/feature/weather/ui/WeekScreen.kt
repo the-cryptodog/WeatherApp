@@ -1,5 +1,6 @@
 package com.example.feature.weather.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -31,6 +32,7 @@ private val ColorCardBgToday   = Color(0xFF0F1E35)
 private val ColorCardBorder    = Color(0x1A508CDC)
 private val ColorCardBorderToday = Color(0x66508CDC)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeekScreen(viewModel: WeatherViewModel) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -40,44 +42,45 @@ fun WeekScreen(viewModel: WeatherViewModel) {
         viewModel.loadWeather()
     }
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color    = ColorBackground
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ColorBackground)
     ) {
+        TopAppBar(
+            title = {
+                Text(
+                    text       = "本週預報",
+                    fontSize   = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color      = ColorTextPrimary
+                )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = ColorBackground
+            )
+        )
+
         when (val state = uiState) {
             is WeatherUiState.Loading ->
                 Box(Modifier.fillMaxSize(), Alignment.Center) {
                     CircularProgressIndicator(color = ColorPrimary)
                 }
-
             is WeatherUiState.Success ->
                 LazyColumn(
-                    modifier        = Modifier.fillMaxSize(),
-                    contentPadding  = PaddingValues(
+                    modifier            = Modifier.fillMaxSize(),
+                    contentPadding      = PaddingValues(
                         start  = 16.dp,
                         end    = 16.dp,
-                        top    = 20.dp,
+                        top    = 8.dp,
                         bottom = 16.dp
                     ),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    item {
-                        Text(
-                            text       = "本週預報",
-                            fontSize   = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color      = ColorTextPrimary,
-                            modifier   = Modifier.padding(bottom = 8.dp)
-                        )
-                    }
                     itemsIndexed(state.weather.weekForecast) { index, day ->
-                        WeekDayCard(
-                            day     = day,
-                            isToday = index == 0
-                        )
+                        WeekDayCard(day = day, isToday = index == 0)
                     }
                 }
-
             is WeatherUiState.Error ->
                 Box(Modifier.fillMaxSize(), Alignment.Center) {
                     ErrorView(

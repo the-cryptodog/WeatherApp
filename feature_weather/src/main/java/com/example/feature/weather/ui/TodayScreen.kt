@@ -1,11 +1,10 @@
 package com.example.feature.weather.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,10 +34,7 @@ private val ColorDivider       = Color(0x33508CDC)   // 分隔線
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodayScreen(
-    viewModel: WeatherViewModel,
-    onNavigateToCities: () -> Unit
-) {
+fun TodayScreen(viewModel: WeatherViewModel) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val city    by viewModel.selectedCity.collectAsStateWithLifecycle()
 
@@ -46,44 +42,32 @@ fun TodayScreen(
         viewModel.loadWeather()
     }
 
-    Scaffold(
-        containerColor = ColorBackground,
-        topBar = {
-            TopAppBar(
-                title = {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ColorBackground)
+    ) {
+        // 置中城市名稱
+        TopAppBar(
+            title = {
+                Box(
+                    modifier         = Modifier.fillMaxWidth()
+                ) {
                     Text(
                         text       = city.name,
-                        fontSize   = 20.sp,
+                        fontSize   = 26.sp,
                         fontWeight = FontWeight.SemiBold,
                         color      = ColorTextPrimary
                     )
-                },
-                actions = {
-                    TextButton(onClick = onNavigateToCities) {
-                        Icon(
-                            imageVector        = Icons.Default.LocationCity,
-                            contentDescription = null,
-                            tint               = ColorPrimary,
-                            modifier           = Modifier.size(16.dp)
-                        )
-                        Spacer(Modifier.width(4.dp))
-                        Text(
-                            text     = "切換城市",
-                            fontSize = 12.sp,
-                            color    = ColorPrimary
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = ColorBackground
-                )
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = ColorBackground
             )
-        }
-    ) { padding ->
+        )
+
         Box(
-            modifier         = Modifier
-                .fillMaxSize()
-                .padding(padding),
+            modifier         = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             when (val state = uiState) {

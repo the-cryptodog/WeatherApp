@@ -15,9 +15,9 @@ interface OpenMeteoApiService {
         @Query("latitude")      latitude: Double,
         @Query("longitude")     longitude: Double,
         // current 指定要回傳哪些即時天氣欄位
-        @Query("current")       current: String  = "temperature_2m,weathercode,windspeed_10m",
+        @Query("current")       current: String  = "temperature_2m,weathercode,windspeed_10m,apparent_temperature,precipitation",
         // daily 指定要回傳哪些每日預報欄位
-        @Query("daily")         daily: String    = "temperature_2m_max,temperature_2m_min,weathercode",
+        @Query("daily")         daily: String    = "temperature_2m_max,temperature_2m_min,weathercode,uv_index_max,sunrise,sunset",
         // auto 讓 API 根據經緯度自動判斷時區
         @Query("timezone")      timezone: String = "auto",
         @Query("forecast_days") days: Int        = 7

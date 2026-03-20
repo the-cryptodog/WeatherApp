@@ -1,18 +1,43 @@
 package com.example.core.data.repository
 
-
+import com.example.core.data.di.IoDispatcher
 import com.example.core.data.model.City
 import com.example.core.data.model.Weather
 import com.example.core.data.remote.OpenMeteoApiService
 import com.example.core.data.remote.toWeather
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
-    private val api: OpenMeteoApiService
+    private val api: OpenMeteoApiService,
+    @param:IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : WeatherRepository {
 
     override suspend fun getWeather(lat: Double, lon: Double): Result<Weather> =
-        runCatching { api.getForecast(lat, lon).toWeather() }
+    // withContext 明確指定這段程式碼在 IO 執行緒執行
+        // 網路請求絕對不能在 Main Thread 執行，否則會 ANR
+        withContext(dispatcher) {
+            try {
+                val response = api.getForecast(lat, lon)
+                Result.success(response.toWeather())
+            } catch (e: IOException) {
+                // IOException = 網路層問題
+                // 例如：沒有網路、DNS 解析失敗、連線逾時
+                Result.failure(Exception("網路連線失敗，請檢查網路設定"))
+            } catch (e: HttpException) {
+                // HttpException = 伺服器有回應，但狀態碼不是 2xx
+                // 例如：404 找不到、500 伺服器錯誤
+                Result.failure(Exception("伺服器錯誤（${e.code()}），請稍後再試"))
+            } catch (e: Exception) {
+                // 其他未預期的錯誤
+                // 例如：JSON 解析失敗、資料格式不符
+                Result.failure(Exception("發生未知錯誤：${e.message}"))
+            }
+        }
+
 
     override fun getCities(): List<City> = listOf(
         // 亞洲

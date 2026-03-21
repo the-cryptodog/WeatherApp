@@ -12,9 +12,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.feature.weather.ui.CityListScreen
 import com.example.feature.weather.ui.TodayScreen
 import com.example.feature.weather.ui.WeekScreen
+import com.example.feature.weather.ui.theme.WeatherColors
 import com.example.feature.weather.viewmodel.WeatherViewModel
-
-private val ColorBackground  = Color(0xFF090E18)
 
 @Composable
 fun WeatherNavGraph() {
@@ -23,7 +22,7 @@ fun WeatherNavGraph() {
 
     // 只管 BottomBar，不管 TopAppBar
     Scaffold(
-        containerColor = ColorBackground,
+        containerColor = WeatherColors.Background,
         bottomBar      = { WeatherBottomBar(navController) }
     ) { innerPadding ->
         NavHost(

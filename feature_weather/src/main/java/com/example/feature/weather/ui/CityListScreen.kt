@@ -2,13 +2,29 @@ package com.example.feature.weather.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,18 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.data.model.City
+import com.example.feature.weather.ui.theme.WeatherColors
 import com.example.feature.weather.viewmodel.WeatherViewModel
 
-private val ColorBackground      = Color(0xFF090E18)
-private val ColorPrimary         = Color(0xFF90C0F0)
-private val ColorTextPrimary     = Color(0xFFEEF4FF)
-private val ColorTextSecondary   = Color(0xFFC0D4E8)
-private val ColorTextMuted       = Color(0xFF6080A0)
-private val ColorCardBg          = Color(0xFF0F1825)
-private val ColorCardBgSelected  = Color(0xFF0F1E35)
-private val ColorCardBorder      = Color(0x1A508CDC)
-private val ColorCardBorderSelected = Color(0x66508CDC)
-private val ColorRegionLabel     = Color(0xFF6080A0)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +54,7 @@ fun CityListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(ColorBackground)
+            .background(WeatherColors.Background)
     ) {
         TopAppBar(
             title = {
@@ -55,11 +62,11 @@ fun CityListScreen(
                     text       = "選擇城市",
                     fontSize   = 20.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color      = ColorTextPrimary
+                    color      = WeatherColors.TextPrimary
                 )
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = ColorBackground
+                containerColor = WeatherColors.Background
             )
         )
 
@@ -78,7 +85,7 @@ fun CityListScreen(
                         text          = region,
                         fontSize      = 10.sp,
                         fontWeight    = FontWeight.SemiBold,
-                        color         = ColorRegionLabel,
+                        color         = WeatherColors.RegionLabel,
                         letterSpacing = 1.5.sp,
                         modifier      = Modifier.padding(
                             top    = 16.dp,
@@ -115,11 +122,11 @@ private fun CityItem(
             .clickable(onClick = onClick),
         shape    = RoundedCornerShape(14.dp),
         colors   = CardDefaults.cardColors(
-            containerColor = if (isSelected) ColorCardBgSelected else ColorCardBg
+            containerColor = if (isSelected) WeatherColors.CardBgSelected else WeatherColors.CardBg
         ),
         border   = androidx.compose.foundation.BorderStroke(
             width = 0.5.dp,
-            color = if (isSelected) ColorCardBorderSelected else ColorCardBorder
+            color = if (isSelected) WeatherColors.CardBorderSelected else WeatherColors.CardBorder
         )
     ) {
         Row(
@@ -133,20 +140,20 @@ private fun CityItem(
                     text       = city.name,
                     fontSize   = 15.sp,
                     fontWeight = FontWeight.Medium,
-                    color      = if (isSelected) ColorPrimary else ColorTextSecondary
+                    color      = if (isSelected) WeatherColors.TextPrimary else WeatherColors.TextSecondary
                 )
                 Spacer(Modifier.height(2.dp))
                 Text(
                     text     = "${city.latitude}°N  ${city.longitude}°E",
                     fontSize = 11.sp,
-                    color    = ColorTextMuted
+                    color    = WeatherColors.TextMuted
                 )
             }
             if (isSelected) {
                 Icon(
                     imageVector        = Icons.Default.Check,
                     contentDescription = null,
-                    tint               = ColorPrimary,
+                    tint               = WeatherColors.Primary,
                     modifier           = Modifier.size(18.dp)
                 )
             }

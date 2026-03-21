@@ -1,17 +1,32 @@
 package com.example.feature.weather.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,18 +34,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.data.model.DayForecast
 import com.example.core.data.model.Weather
+import com.example.feature.weather.ui.theme.WeatherColors
 import com.example.feature.weather.viewmodel.WeatherUiState
 import com.example.feature.weather.viewmodel.WeatherViewModel
-
-// 日系深藍配色常數，集中管理方便之後修改
-private val ColorBackground    = Color(0xFF090E18)
-private val ColorPrimary       = Color(0xFF90C0F0)   // 強調色：鋼藍
-private val ColorTextPrimary   = Color(0xFFEEF4FF)   // 主要文字：冷藍白
-private val ColorTextSecondary = Color(0xFF8AA0C0)   // 次要文字
-private val ColorTextMuted     = Color(0xFF6080A0)   // 最淡文字（label）
-private val ColorCardBg        = Color(0x14508CDC)   // 卡片背景（半透明藍）
-private val ColorCardBorder    = Color(0x33508CDC)   // 卡片邊框
-private val ColorDivider       = Color(0x33508CDC)   // 分隔線
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +51,7 @@ fun TodayScreen(viewModel: WeatherViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(ColorBackground)
+            .background(WeatherColors.Background)
     ) {
         // 置中城市名稱
         TopAppBar(
@@ -57,12 +63,12 @@ fun TodayScreen(viewModel: WeatherViewModel) {
                         text       = city.name,
                         fontSize   = 26.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color      = ColorTextPrimary
+                        color      = WeatherColors.TextPrimary
                     )
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = ColorBackground
+                containerColor = WeatherColors.Background
             )
         )
 
@@ -72,7 +78,7 @@ fun TodayScreen(viewModel: WeatherViewModel) {
         ) {
             when (val state = uiState) {
                 is WeatherUiState.Loading ->
-                    CircularProgressIndicator(color = ColorPrimary)
+                    CircularProgressIndicator(color = WeatherColors.Primary)
                 is WeatherUiState.Success ->
                     TodayContent(weather = state.weather)
                 is WeatherUiState.Error ->
@@ -109,14 +115,14 @@ private fun TodayContent(weather: Weather) {
                 text       = weather.temperature.toInt().toString(),
                 fontSize   = 72.sp,
                 fontWeight = FontWeight.Light,
-                color      = ColorTextPrimary,
+                color      = WeatherColors.TextPrimary,
                 letterSpacing = (-2).sp
             )
             Text(
                 text       = "°C",
                 fontSize   = 32.sp,
                 fontWeight = FontWeight.Light,
-                color      = ColorTextMuted,
+                color      = WeatherColors.TextMuted,
                 modifier   = Modifier.padding(top = 10.dp)
             )
         }
@@ -125,7 +131,7 @@ private fun TodayContent(weather: Weather) {
         Text(
             text          = weather.weatherCode.toDescription(),
             fontSize      = 16.sp,
-            color         = ColorTextSecondary,
+            color         = WeatherColors.TextSecondary,
             letterSpacing = 1.sp
         )
 
@@ -136,12 +142,12 @@ private fun TodayContent(weather: Weather) {
             Text(
                 text = "最高  ${weather.weekForecast.firstOrNull()?.maxTemp?.toInt() ?: "--"}°",
                 fontSize = 16.sp,
-                color    = ColorTextMuted
+                color    = WeatherColors.TextMuted
             )
             Text(
                 text = "最低  ${weather.weekForecast.firstOrNull()?.minTemp?.toInt() ?: "--"}°",
                 fontSize = 16.sp,
-                color    = ColorTextMuted
+                color    = WeatherColors.TextMuted
             )
         }
 
@@ -151,7 +157,7 @@ private fun TodayContent(weather: Weather) {
         HorizontalDivider(
             modifier  = Modifier.padding(horizontal = 20.dp),
             thickness = 0.5.dp,
-            color     = ColorDivider
+            color     = WeatherColors.DividerToday
         )
 
         Spacer(Modifier.height(16.dp))
@@ -230,7 +236,7 @@ private fun InfoCell(
         Text(
             text          = label,
             fontSize      = 16.sp,
-            color         = ColorTextMuted,
+            color         = WeatherColors.TextMuted,
             letterSpacing = 0.8.sp
         )
         Spacer(Modifier.height(6.dp))
@@ -238,13 +244,13 @@ private fun InfoCell(
             text       = value,
             fontSize   = 18.sp,
             fontWeight = FontWeight.Medium,
-            color      = ColorTextPrimary
+            color      = WeatherColors.TextPrimary
         )
         Spacer(Modifier.height(2.dp))
         Text(
             text     = unit,
             fontSize = 14.sp,
-            color    = ColorTextSecondary
+            color    = WeatherColors.TextSecondary
         )
     }
 }
@@ -260,11 +266,11 @@ private fun ExtraCard(
         modifier = modifier,
         shape    = RoundedCornerShape(14.dp),
         colors   = CardDefaults.cardColors(
-            containerColor = ColorCardBg
+            containerColor = WeatherColors.CardBgToday
         ),
         border = androidx.compose.foundation.BorderStroke(
             width = 0.5.dp,
-            color = ColorCardBorder
+            color = WeatherColors.CardBorder
         )
     ) {
         Column(
@@ -278,7 +284,7 @@ private fun ExtraCard(
             Text(
                 text          = label,
                 fontSize      = 16.sp,
-                color         = ColorTextMuted,
+                color         = WeatherColors.TextMuted,
                 letterSpacing = 0.5.sp
             )
             Spacer(Modifier.height(4.dp))
@@ -286,7 +292,7 @@ private fun ExtraCard(
                 text       = value,
                 fontSize   = 18.sp,
                 fontWeight = FontWeight.Medium,
-                color      = ColorPrimary
+                color      = WeatherColors.TextPrimary
             )
         }
     }

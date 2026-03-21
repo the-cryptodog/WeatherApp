@@ -1,36 +1,41 @@
 package com.example.feature.weather.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.data.model.DayForecast
+import com.example.feature.weather.ui.theme.WeatherColors
 import com.example.feature.weather.viewmodel.WeatherUiState
 import com.example.feature.weather.viewmodel.WeatherViewModel
 
-// 沿用 TodayScreen 的配色常數保持整體一致
-private val ColorBackground    = Color(0xFF090E18)
-private val ColorPrimary       = Color(0xFF90C0F0)
-private val ColorTextPrimary   = Color(0xFFEEF4FF)
-private val ColorTextSecondary = Color(0xFF8AA0C0)
-private val ColorTextMuted     = Color(0xFF6080A0)
-private val ColorCardBg        = Color(0xFF0F1825)
-private val ColorCardBgToday   = Color(0xFF0F1E35)
-private val ColorCardBorder    = Color(0x1A508CDC)
-private val ColorCardBorderToday = Color(0x66508CDC)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +50,7 @@ fun WeekScreen(viewModel: WeatherViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(ColorBackground)
+            .background(WeatherColors.Background)
     ) {
         TopAppBar(
             title = {
@@ -53,18 +58,18 @@ fun WeekScreen(viewModel: WeatherViewModel) {
                     text       = "本週預報",
                     fontSize   = 20.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color      = ColorTextPrimary
+                    color      = WeatherColors.TextPrimary
                 )
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = ColorBackground
+                containerColor = WeatherColors.Background
             )
         )
 
         when (val state = uiState) {
             is WeatherUiState.Loading ->
                 Box(Modifier.fillMaxSize(), Alignment.Center) {
-                    CircularProgressIndicator(color = ColorPrimary)
+                    CircularProgressIndicator(color = WeatherColors.Primary)
                 }
             is WeatherUiState.Success ->
                 LazyColumn(
@@ -101,11 +106,11 @@ private fun WeekDayCard(
         modifier = Modifier.fillMaxWidth(),
         shape    = RoundedCornerShape(14.dp),
         colors   = CardDefaults.cardColors(
-            containerColor = if (isToday) ColorCardBgToday else ColorCardBg
+            containerColor = if (isToday) WeatherColors.CardBgToday else WeatherColors.CardBg
         ),
         border = androidx.compose.foundation.BorderStroke(
             width = 0.5.dp,
-            color = if (isToday) ColorCardBorderToday else ColorCardBorder
+            color = if (isToday) WeatherColors.CardBorderToday else WeatherColors.CardBorder
         )
     ) {
         Row(
@@ -119,7 +124,7 @@ private fun WeekDayCard(
                 text       = if (isToday) "今天" else day.date.takeLast(5),
                 fontSize   = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color      = if (isToday) ColorPrimary else ColorTextSecondary,
+                color      = if (isToday) WeatherColors.Primary else WeatherColors.TextSecondary,
                 modifier   = Modifier.width(52.dp)
             )
 
@@ -134,7 +139,7 @@ private fun WeekDayCard(
             Text(
                 text     = day.weatherCode.toDescription(),
                 fontSize = 16.sp,
-                color    = ColorTextMuted,
+                color    = WeatherColors.TextMuted,
                 modifier = Modifier.weight(1f)
             )
 
@@ -144,12 +149,12 @@ private fun WeekDayCard(
                     text       = "${day.maxTemp.toInt()}°",
                     fontSize   = 16.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color      = ColorTextPrimary
+                    color      = WeatherColors.TextPrimary
                 )
                 Text(
                     text     = "  /  ${day.minTemp.toInt()}°",
                     fontSize = 16.sp,
-                    color    = ColorTextMuted
+                    color    = WeatherColors.TextMuted
                 )
             }
         }

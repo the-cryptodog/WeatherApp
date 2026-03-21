@@ -19,7 +19,7 @@ fun WeatherNavGraph() {
     val navController = rememberNavController()
     val viewModel: WeatherViewModel = hiltViewModel()
 
-    // 只管 BottomBar，不管 TopAppBar
+    // 只管 BottomBar
     Scaffold(
         containerColor = WeatherColors.Background,
         bottomBar      = { WeatherBottomBar(navController) }

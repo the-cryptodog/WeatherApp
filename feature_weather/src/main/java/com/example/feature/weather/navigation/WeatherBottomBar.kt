@@ -9,12 +9,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.feature.weather.ui.theme.WeatherColors
+import com.example.weatherapp.feature.weather.R
 
 @Composable
 fun WeatherBottomBar(navController: NavController) {
@@ -22,7 +25,7 @@ fun WeatherBottomBar(navController: NavController) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar(
-        containerColor = Color(0xFF090E18),
+        containerColor = WeatherColors.Background,
         tonalElevation = 0.dp
     ) {
         NavigationBarItem(
@@ -31,7 +34,7 @@ fun WeatherBottomBar(navController: NavController) {
             icon     = {
                 NavItemContent(
                     emoji      = "☀️",
-                    label      = "今天",
+                    label      = stringResource(R.string.nav_today),
                     isSelected = currentRoute == "today"
                 )
             },
@@ -46,7 +49,7 @@ fun WeatherBottomBar(navController: NavController) {
             icon     = {
                 NavItemContent(
                     emoji      = "📅",
-                    label      = "本週",
+                    label      = stringResource(R.string.nav_week),
                     isSelected = currentRoute == "week"
                 )
             },
@@ -61,7 +64,7 @@ fun WeatherBottomBar(navController: NavController) {
             icon     = {
                 NavItemContent(
                     emoji      = "🏙",
-                    label      = "城市",
+                    label      = stringResource(R.string.nav_cities),
                     isSelected = currentRoute == "cities"
                 )
             },
@@ -88,7 +91,7 @@ private fun NavItemContent(
             text          = label,
             fontSize      = 10.sp,
             fontWeight    = FontWeight.Medium,
-            color         = if (isSelected) Color(0xFF90C0F0) else Color(0xFF2A3A50),
+            color         = if (isSelected) WeatherColors.Primary else WeatherColors.TextNavUnselectedBottomBar,
             letterSpacing = 0.3.sp
         )
         // 選中小圓點
@@ -96,7 +99,7 @@ private fun NavItemContent(
             modifier = Modifier
                 .size(4.dp)
                 .background(
-                    color = if (isSelected) Color(0xFF90C0F0) else Color.Transparent,
+                    color = if (isSelected) WeatherColors.Primary else Color.Transparent,
                     shape = CircleShape
                 )
         )

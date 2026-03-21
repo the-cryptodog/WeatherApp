@@ -26,15 +26,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.data.model.DayForecast
+import com.example.core.data.utils.toFormattedDate
 import com.example.feature.weather.ui.theme.WeatherColors
 import com.example.feature.weather.viewmodel.WeatherUiState
 import com.example.feature.weather.viewmodel.WeatherViewModel
+import com.example.weatherapp.feature.weather.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +58,7 @@ fun WeekScreen(viewModel: WeatherViewModel) {
         TopAppBar(
             title = {
                 Text(
-                    text       = "本週預報",
+                    text       = stringResource(R.string.week_title),
                     fontSize   = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color      = WeatherColors.TextPrimary
@@ -121,11 +124,11 @@ private fun WeekDayCard(
         ) {
             // 日期欄
             Text(
-                text       = if (isToday) "今天" else day.date.takeLast(5),
+                text       = if (isToday) stringResource(R.string.week_today) else day.date.toFormattedDate(),
                 fontSize   = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color      = if (isToday) WeatherColors.Primary else WeatherColors.TextSecondary,
-                modifier   = Modifier.width(52.dp)
+                modifier   = Modifier.width(90.dp)
             )
 
             // Emoji

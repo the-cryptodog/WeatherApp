@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.core.data.model.City
 import com.example.feature.weather.ui.theme.WeatherColors
 import com.example.feature.weather.viewmodel.WeatherViewModel
+import com.example.weatherapp.feature.weather.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +61,7 @@ fun CityListScreen(
         TopAppBar(
             title = {
                 Text(
-                    text       = "選擇城市",
+                    text       = stringResource(R.string.city_title),
                     fontSize   = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color      = WeatherColors.TextPrimary

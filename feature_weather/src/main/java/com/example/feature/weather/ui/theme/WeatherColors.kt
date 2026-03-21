@@ -12,9 +12,9 @@ object WeatherColors {
     // 文字
     val TextPrimary        = Color(0xFFEEF4FF)
     val TextSecondary      = Color(0xFF8AA0C0)
-    val TextSecondary2     = Color(0xFFC0D4E8)  // CityListScreen 城市名稱
+    // CityListScreen 城市名稱
     val TextMuted          = Color(0xFF6080A0)
-    val TextNavUnselected  = Color(0xFF2A3A50)  // BottomBar 未選中
+    val TextNavUnselectedBottomBar  = Color(0xFF2A3A50)  // BottomBar 未選中
 
     // 卡片背景
     val CardBg             = Color(0xFF0F1825)  // 一般卡片
@@ -28,7 +28,6 @@ object WeatherColors {
 
     // 分隔線
     val DividerToday       = Color(0x33508CDC)  // TodayScreen 用
-    val Divider            = Color(0x1F508CDC)  // BottomBar 用
 
     val RegionLabel        = Color(0xFF6080A0)  // 城市地區標題
 }

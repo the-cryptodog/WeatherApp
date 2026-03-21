@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BottomBar -->
+    <string name="nav_today">今天</string>
+    <string name="nav_week">本週</string>
+    <string name="nav_cities">城市</string>
+
+    <!-- TodayScreen -->
+    <string name="today_feels_like">體　感</string>
+    <string name="today_sunrise">日　出</string>
+    <string name="today_sunset">日　落</string>
+    <string name="today_wind_speed">風　速</string>
+    <string name="today_precipitation">降雨量</string>
+    <string name="today_uv_index">UV 指數</string>
+    <string name="today_high">最高</string>
+    <string name="today_low">最低</string>
+
+    <!-- 單位 -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mm">mm</string>
+    <string name="unit_celsius">°C</string>
+    <string name="unit_degree">°</string>
+
+    <!-- UV 等級 -->
+    <string name="uv_low">低</string>
+    <string name="uv_moderate">中等</string>
+    <string name="uv_high">高</string>
+    <string name="uv_very_high">很高</string>
+    <string name="uv_extreme">極高</string>
+
+    <!-- WeekScreen -->
+    <string name="week_title">本週預報</string>
+    <string name="week_today">今天</string>
+
+    <!-- CityListScreen -->
+    <string name="city_title">選擇城市</string>
+
+    <!-- 錯誤處理 -->
+    <string name="error_retry">重試</string>
+</resources>

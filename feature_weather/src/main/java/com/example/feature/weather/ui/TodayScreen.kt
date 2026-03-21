@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import com.example.core.data.model.Weather
 import com.example.feature.weather.ui.theme.WeatherColors
 import com.example.feature.weather.viewmodel.WeatherUiState
 import com.example.feature.weather.viewmodel.WeatherViewModel
+import com.example.weatherapp.feature.weather.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -170,19 +172,19 @@ private fun TodayContent(weather: Weather) {
             horizontalArrangement = Arrangement.spacedBy(1.dp)
         ) {
             InfoCell(
-                label = "風　速",
+                label = stringResource(R.string.today_wind_speed),
                 value = weather.windSpeed.toInt().toString(),
-                unit  = "km/h",
+                unit  = stringResource(R.string.unit_kmh),
                 modifier = Modifier.weight(1f)
             )
             InfoCell(
-                label = "降雨量",
+                label = stringResource(R.string.today_precipitation),
                 value = weather.precipitation.toInt().toString(),
-                unit  = "mm",
+                unit  = stringResource(R.string.unit_mm),
                 modifier = Modifier.weight(1f)
             )
             InfoCell(
-                label = "UV 指數",
+                label = stringResource(R.string.today_uv_index),
                 value = weather.uvIndex.toInt().toString(),
                 unit  = uvLevel(weather.uvIndex),
                 modifier = Modifier.weight(1f)
@@ -200,19 +202,19 @@ private fun TodayContent(weather: Weather) {
         ) {
             ExtraCard(
                 emoji = "🌡️",
-                label = "體　感",
+                label = stringResource(R.string.today_feels_like),
                 value = "${weather.apparentTemperature.toInt()}°C",
                 modifier = Modifier.weight(1f)
             )
             ExtraCard(
                 emoji = "🌅",
-                label = "日　出",
+                label = stringResource(R.string.today_sunrise),
                 value = weather.sunrise,
                 modifier = Modifier.weight(1f)
             )
             ExtraCard(
                 emoji = "🌇",
-                label = "日　落",
+                label = stringResource(R.string.today_sunset),
                 value = weather.sunset,
                 modifier = Modifier.weight(1f)
             )
